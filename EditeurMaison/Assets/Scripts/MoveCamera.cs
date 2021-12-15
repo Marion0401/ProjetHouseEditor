@@ -29,8 +29,8 @@ public class MoveCamera : MonoBehaviour
 			float xDirection = Input.GetAxis("Mouse X");
 			float yDirection = Input.GetAxis("Mouse Y");
 			
-			float horizontalOffset = sensitivity * xDirection * Time.deltaTime;
-			float verticalOffset = sensitivity * yDirection  * Time.deltaTime;
+			float horizontalOffset = sensitivity * -xDirection * Time.deltaTime;
+			float verticalOffset = sensitivity * -yDirection  * Time.deltaTime;
 
 			
 			if (transform.position.x > 26f)

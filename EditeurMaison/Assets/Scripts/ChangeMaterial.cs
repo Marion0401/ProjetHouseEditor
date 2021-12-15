@@ -5,11 +5,15 @@ using UnityEngine;
 public class ChangeMaterial : MonoBehaviour
 {
     public Material newMaterial;
-    public GameObject materialToChange;
     
     public void changeMaterial()
     {
-        materialToChange.GetComponent <Renderer>().material= newMaterial;
+        foreach (GameObject objToChangeMaterial in GlobalVariables.listObjSelected)
+        {
+            objToChangeMaterial.GetComponent<Renderer>().material = newMaterial;
+        }
+        //GlobalVariables.objSelected.GetComponent<Renderer>().material = newMaterial; ;
+        
     }
    
 }

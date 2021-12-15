@@ -12,7 +12,13 @@ public class Construction : MonoBehaviour
     public GameObject canvasConstruction;
     public GameObject canvasGeneral;
     public GameObject pointer;
-
+    public bool wallConstruction;
+    public float positionGameX;
+    public float positionGameZ;
+    public float positionGameRotationX;
+    public float positionGameRotationZ;
+    bool rotationActive=false;
+    public Color greenColor;
 
     // Start is called before the first frame update
     void Start()
@@ -30,19 +36,69 @@ public class Construction : MonoBehaviour
     }
     void Update()
     {
+        
         if (_onConstruction)
         {
-            pointer.transform.position = floorPosition(getWorldPoint());
+            if (wallConstruction)
+            {
+                pointer.transform.position = floorPositionWall(getWorldPoint());
+                ChangeColorPointer(pointer.transform.position.x, pointer.transform.position.z);
+            }
+            
+            else
+            {
+                pointer.transform.position = floorPosition(getWorldPoint());
+                ChangeColorPointer(pointer.transform.position.x, pointer.transform.position.z);
+            }
+            
+            
             if (!GlobalVariables.isEnterButton)
             {
                 if (Input.GetMouseButton(0))
                 {
                     AddObject(GetPositionGrid());
                 }
+               if (Input.GetMouseButtonDown(1))
+                {
+                    
+                    rotationActive =!rotationActive;
+                    
+
+                    if (rotationActive)
+                    {
+                        
+                        
+                        pointer.transform.Rotate(0f, -90f, 0f);
+
+                    }
+                    else
+                    {
+                       
+                        pointer.transform.Rotate(0f, 90f, 0f);
+                    }
+                }
             }
             
         }
 
+
+    }
+
+    void ChangeColorPointer(float x,float z)
+    {
+        if (!IsInGrid(pointer.transform.position))
+        {
+            pointer.GetComponent<Renderer>().material.color = Color.red;
+
+        }
+        else if(grid[(int)x, (int)z] == null)
+        {
+            pointer.GetComponent<Renderer>().material.color = greenColor;
+        }
+        else
+        {
+            pointer.GetComponent<Renderer>().material.color = Color.red;
+        }
 
     }
 
@@ -64,10 +120,25 @@ public class Construction : MonoBehaviour
         snapped.x = Mathf.Floor(original.x + 0.1f);
         snapped.y = Mathf.Floor(original.y + 0.1f);
         snapped.z = Mathf.Floor(original.z + 0.1f);
-
         return snapped;
     }
-    // Update is called once per frame
+
+    public Vector3 floorPositionWall(Vector3 original)
+    {
+        Vector3 snapped;
+        snapped.x = Mathf.Floor(original.x + 0.1f);
+        snapped.y = Mathf.Floor(original.y + 0.1f);
+        snapped.z = Mathf.Floor(original.z + 0.1f);
+        snapped.z += 0.3f;
+        
+        if (rotationActive)
+        {
+            snapped.x += 0.4f;
+            snapped.z -= 0.5f;
+        }
+        return snapped;
+    }
+    
 
 
 
@@ -77,11 +148,20 @@ public class Construction : MonoBehaviour
         {
             if (grid[(int)position.x, (int)position.z] == null)
             {
-                GameObject test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x, 0, position.z), Quaternion.identity);
-
+                if (rotationActive)
+                {
+                    GameObject test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameRotationX, 0, position.z + positionGameRotationZ), Quaternion.Euler(0f,90f,0));
+                }
+                else
+                {
+                    GameObject test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameX, 0, position.z + positionGameZ), Quaternion.Euler(0f,0f,0f));
+                }
+                
+ 
             }
-
+            
         }
+        
 
     }
 
