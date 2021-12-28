@@ -10,10 +10,12 @@ public class ButtonFurnish : MonoBehaviour
     public float xCoor=10;
     public float zCoor = 10;
     public AudioSource sound;
+    
 
     public void AppareanceFurnish()
     {
         newGameObject=Instantiate(obj, new Vector3(xCoor, 0, zCoor), Quaternion.identity);
+        MainEditor.Instance.ListObjects.Add(newGameObject);
         sound.Play();
 
     }

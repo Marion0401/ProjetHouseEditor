@@ -148,16 +148,19 @@ public class Construction : MonoBehaviour
         {
             if (grid[(int)position.x, (int)position.z] == null)
             {
+                GameObject test = null;
                 if (rotationActive)
                 {
-                    GameObject test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameRotationX, 0, position.z + positionGameRotationZ), Quaternion.Euler(0f,90f,0));
+                    test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameRotationX, 0, position.z + positionGameRotationZ), Quaternion.Euler(0f,90f,0));
+                    
                 }
                 else
                 {
-                    GameObject test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameX, 0, position.z + positionGameZ), Quaternion.Euler(0f,0f,0f));
+                    test = grid[(int)position.x, (int)position.z] = Instantiate(objToBuild, new Vector3(position.x + positionGameX, 0, position.z + positionGameZ), Quaternion.Euler(0f,0f,0f));
+                    
                 }
-                
- 
+                MainEditor.Instance.ListObjects.Add(test);
+
             }
             
         }

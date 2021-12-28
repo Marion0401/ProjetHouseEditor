@@ -44,18 +44,14 @@ public class SelectObject : MonoBehaviour
         {
             //GlobalVariables.listObjSelected.Remove(objToDelete);
             //GameObject temp = objToDelete;
+            MainEditor.Instance.ListObjects.Remove(objToDelete);
             Destroy(objToDelete);
             
         }
         GlobalVariables.listObjSelected.Clear();
+        
 
-        foreach (GameObject objToDelete in GlobalVariables.listObjSelected)
-        {
-            //GlobalVariables.listObjSelected.Remove(objToDelete);
-            //GameObject temp = objToDelete;
-            Debug.Log(objToDelete);
-
-        }
+        
 
 
 
